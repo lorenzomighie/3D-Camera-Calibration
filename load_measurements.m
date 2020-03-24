@@ -19,6 +19,5 @@ function [camera_R_world, image_p_2D, n_measurements] = load_measurements (data_
   
   camera_R_world = camera_R_world(1:n_measurements, :, :);
   image_p_2D = image_p_2D(1:n_measurements, :, :);
-  
 
 endfunction
