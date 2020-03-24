@@ -1,4 +1,4 @@
-function [K_truth, dist_param_truth] = load_parameters (path)
+function [K_truth, dist_param_truth, rows_cols] = load_parameters (path)
 
   ground_truth = dlmread(path);
   K_truth = ground_truth(2:4,1:3);
