@@ -1,9 +1,7 @@
-function [e, J] = error_and_jacobian(K, d_p, proj_point, z) 
+function [e, J] = error_and_jacobian(K, d_p, cam_p, z) 
   
-   % x_proj is c_R_w*[w_p_3D,1]
-   % BEWARE: SHOULD WORK WITH VECTORS (entire set of points for a measurement)
-   xi = proj_point(1)/proj_point(3);
-   yi = proj_point(2)/proj_point(3);
+   xi = cam_p(1)/cam_p(3);
+   yi = cam_p(2)/cam_p(3);
    fx = K(1,1);
    fy = K(2,2);
    cx = K(1,3);
@@ -17,10 +15,10 @@ function [e, J] = error_and_jacobian(K, d_p, proj_point, z)
    yii = yi*(1 + k1*r2 + k2*r2^2) + p1*(r2 + 2*yi^2) + 2*p2*xi*yi;
    
    % prediction
-   u = fx * xii + cx
-   v = fy * yii + cy
+   u = fx * xii + cx;
+   v = fy * yii + cy;
    
-   e = [u; v] - z
+   e = [u; v] - z;
    
    J = zeros(2, 8);
    J(1, 1) = xii;
