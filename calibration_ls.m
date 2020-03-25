@@ -9,7 +9,7 @@ function [K, d_param, n_inliers, chi_stats] = calibration_ls (K_g, d_param_g, w_
   
   R = squeeze(c_R_w(1, :, :)); % R of exp 1
   
-  state_dim = 8;
+  state_dim = 4;
   H = zeros(state_dim, state_dim);
   b=zeros(state_dim, 1);
   J = zeros(2*n_p, state_dim);
@@ -58,19 +58,19 @@ function [K, d_param, n_inliers, chi_stats] = calibration_ls (K_g, d_param_g, w_
     fy = K_g(2,2);
     cx = K_g(1,3);
     cy = K_g(2,3);
-    k1 = d_param_g(1);
-    k2 = d_param_g(2);
-    p1 = d_param_g(3);
-    p2 = d_param_g(4);
+    %k1 = d_param_g(1);
+    %k2 = d_param_g(2);
+    %p1 = d_param_g(3);
+    %p2 = d_param_g(4);
     
     K_g(1,1) = fx + dx(1);
     K_g(2,2) = fy + dx(2);
     K_g(1,3) = cx + dx(3);
     K_g(2,3) = cy + dx(4);
-    d_param_g(1) = k1 + dx(5);
-    d_param_g(2) = k2 + dx(6);
-    d_param_g(3) = p1 + dx(7);
-    d_param_g(4) = p2 + dx(8);
+    %d_param_g(1) = k1 + dx(5);
+    %%d_param_g(2) = k2 + dx(6);
+    %d_param_g(3) = p1 + dx(7);
+    %d_param_g(4) = p2 + dx(8);
     %X=v2t(dx)*X;
  
   endfor
