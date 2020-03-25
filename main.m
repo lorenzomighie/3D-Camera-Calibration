@@ -31,7 +31,7 @@ n_points = size(w_p_3D)(1);
 % Using the model with radial and tangential distortion
 %% Run Least Squares
 
-iterations=3;
+iterations=10;
 damping=0; # damping factor
 kernel_threshold = 1e9;
 

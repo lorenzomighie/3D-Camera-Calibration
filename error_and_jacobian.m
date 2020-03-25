@@ -1,7 +1,8 @@
-function [e, Jt] = error_and_jacobian(K, d_p, cam_p, z) 
-  
+function [e, J, skip_point] = error_and_jacobian(K, d_p, cam_p, z) 
+
    xi = cam_p(1)/cam_p(3);
    yi = cam_p(2)/cam_p(3);
+   ima_p = K*cam_p;
    fx = K(1,1);
    fy = K(2,2);
    cx = K(1,3);
@@ -15,16 +16,18 @@ function [e, Jt] = error_and_jacobian(K, d_p, cam_p, z)
    yii = yi*(1 + k1*r2 + k2*r2^2) + p1*(r2 + 2*yi^2) + 2*p2*xi*yi;
    
    % prediction
-   %u = fx * xii + cx;
-   %v = fy * yii + cy;
+   u = fx * xii + cx;
+   v = fy * yii + cy;
    
    % TEMPORARY: TRY WITHOUT DISTORTION COEFF
-   u = fx * xi + cx;
-   v = fy * yi + cy;
+   %u = fx * xi + cx;
+   %v = fy * yi + cy;
+   % TEMPORARY: TRY WITHOUT DISTORTION COEFF
    
-   if(u < 0 || u > 640 || v < 0 || u > 480)
-    u
-    v
+   if(u < 0 || u > 640 || v < 0 || v > 480)
+    skip_point = true;
+   else
+    skip_point = false;
    endif
    % TEMPORARY: TRY WITHOUT DISTORTION COEFF
    
@@ -39,7 +42,7 @@ function [e, Jt] = error_and_jacobian(K, d_p, cam_p, z)
    J(1, 7) = fx*2*xi*yi;
    J(1, 8) = fx*(r2 + 2*xi^2);
    J(2, 7) = fy*(r2 + 2*yi^2);
-   J(2, 8) = fy*xi*yi;
+   J(2, 8) = fy*2*xi*yi;
    
    % TEMPORARY: TRY WITHOUT DISTORTION COEFF
    %a = [fx*cam_p(1) + cx*cam_p(3); fy*cam_p(2) + cy*cam_p(3); cam_p(3)];
@@ -51,8 +54,8 @@ function [e, Jt] = error_and_jacobian(K, d_p, cam_p, z)
    %         
    %Jt = dproj_da*da_dx;
    
-   Jt = [ xi, 0, 1, 0;
-          0, yi, 0, 1];
+   %Jt = [ xi, 0, 1, 0;
+   %       0, yi, 0, 1];
   
    % TEMPORARY: TRY WITHOUT DISTORTION COEFF
    
