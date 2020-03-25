@@ -1,50 +1,50 @@
 function [K, d_param, n_inliers, chi_stats] = calibration_ls (K_g, d_param_g, w_p, c_R_w, i_p_2D, n_iterations, damping, kernel_threshold)
  
-  n_inliers = 0;
-  chi_stats = 0; 
-  
+  K = 0;
+  d_param = 0;
+ 
   n_p = length(w_p);
+  state_dim = 4;
+  
+  chi_stats=zeros(1,n_iterations);
+  n_inliers=zeros(1,n_iterations);
   p_hom = ones(n_p, 4);
   p_hom(:, 1:3) = w_p; % all world points set to homogeneous
   
-  R = squeeze(c_R_w(1, :, :)); % R of exp 1
-  
-  state_dim = 4;
-  H = zeros(state_dim, state_dim);
-  b=zeros(state_dim, 1);
-  J = zeros(2*n_p, state_dim);
-  e = zeros(2*state_dim, 1);
-  chi_stats=zeros(1,n_iterations);
-  n_inliers=zeros(1,n_iterations);
-  
   for it = 1:n_iterations
   
+    H = zeros(state_dim, state_dim);
+    b=zeros(state_dim, 1);
+    
     for i_measurement = 1:length(i_p_2D)
       
+      J = zeros(2*n_p, state_dim);
+      e = zeros(2*state_dim, 1);
+      R = squeeze(c_R_w(i_measurement, :, :)); % R of exp m
+      
       for i_point = 1:length(w_p)
-        
-        z = squeeze(i_p_2D(1, i_point, :)); % point i of exp 1
+              
+        z = squeeze(i_p_2D(i_measurement, i_point, :)); % point i of exp m
         cam_p = (R*p_hom(i_point, :)')(1:3);
-        
-        [e, J_point] = error_and_jacobian(K_g, d_param_g, cam_p, z); 
+   
+        [e_p, J_point] = error_and_jacobian(K_g, d_param_g, cam_p, z); 
         
         % chi error with threshold
-        chi=e'*e;
+        chi=e_p'*e_p;
         if (chi>kernel_threshold)
-          e*=sqrt(kernel_threshold/chi);
+          e_p*=sqrt(kernel_threshold/chi);
           chi=kernel_threshold;
         else
           n_inliers(it)++;
         endif
         
         % fill the error 
-        e(2*i_point - 1 :2*i_point) = e;
+        e(2*i_point - 1 :2*i_point) = e_p;
           
         % fill the jacobian
         J(2*i_point - 1 :2*i_point, :) = J_point;
       
       endfor
-      
       chi_stats(it) += chi;
       H += J'*J;
       b += J'*e;
@@ -75,6 +75,7 @@ function [K, d_param, n_inliers, chi_stats] = calibration_ls (K_g, d_param_g, w_
  
   endfor
  
+  a = 0
   K = K_g;
   d_param = d_param_g;
   

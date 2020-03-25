@@ -21,6 +21,11 @@ function [e, Jt] = error_and_jacobian(K, d_p, cam_p, z)
    % TEMPORARY: TRY WITHOUT DISTORTION COEFF
    u = fx * xi + cx;
    v = fy * yi + cy;
+   
+   if(u < 0 || u > 640 || v < 0 || u > 480)
+    u
+    v
+   endif
    % TEMPORARY: TRY WITHOUT DISTORTION COEFF
    
    e = [u; v] - z;

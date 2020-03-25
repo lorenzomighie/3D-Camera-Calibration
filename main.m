@@ -31,10 +31,14 @@ n_points = size(w_p_3D)(1);
 % Using the model with radial and tangential distortion
 %% Run Least Squares
 
-iterations=100;
+iterations=3;
 damping=0; # damping factor
 kernel_threshold = 1e9;
 
 [K_LS, d_param_g_LS,  n_inliers, error_chi] = calibration_ls(K_g, d_param_g, w_p_3D, c_R_w, i_p_2D, iterations, damping, kernel_threshold);
 
 % notice that the 3d points give are on a plane and belong to a grid
+
+%% plot error
+figure
+plot([1:iterations], error_chi)
