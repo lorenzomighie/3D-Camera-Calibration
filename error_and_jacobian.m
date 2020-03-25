@@ -24,12 +24,12 @@ function [e, J, skip_point] = error_and_jacobian(K, d_p, cam_p, z)
    %v = fy * yi + cy;
    % TEMPORARY: TRY WITHOUT DISTORTION COEFF
    
+   
    if(u < 0 || u > 640 || v < 0 || v > 480)
     skip_point = true;
    else
     skip_point = false;
    endif
-   % TEMPORARY: TRY WITHOUT DISTORTION COEFF
    
    e = [u; v] - z;
    

@@ -30,7 +30,7 @@ function [K, d_param, n_inliers, chi_stats] = calibration_ls (K_g, d_param_g, w_
         
         %imp = [ima_p(1)/ima_p(3); ima_p(2)/ima_p(3)] debug
         %z
-        [e_p, J_point, skip] = error_and_jacobian(K_g, d_param_g, cam_p, z); 
+        [e_p, J_point, skip] = error_and_jacobian_matlabguide(K_g, d_param_g, cam_p, z); 
         %skip = false;
         
         if skip
@@ -53,17 +53,16 @@ function [K, d_param, n_inliers, chi_stats] = calibration_ls (K_g, d_param_g, w_
         J(2*i_point - 1 :2*i_point, :) = J_point;
       
       endfor
-      index_skip
+
       % remove point out of boundS
       for i_skip = 1:length(index_skip)
-        i_skip
+        
         i = index_skip(i_skip);
         
         e(2*i-1:2*i) = [];
         J(2*i - 1 :2*i, :) = [];
         index_skip -= 1;
         
-        length(e)
       endfor      
     
       chi_stats(it) += chi;
@@ -72,7 +71,7 @@ function [K, d_param, n_inliers, chi_stats] = calibration_ls (K_g, d_param_g, w_
       
     endfor
 
-    % H+=eye(6)*damping;
+    H+=eye(8)*damping;
     dx = -H\b; % 8 x 1
     
     fx = K_g(1,1);
