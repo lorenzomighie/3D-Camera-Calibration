@@ -33,6 +33,9 @@ function [e, J, skip_point] = error_and_jacobian_matlabguide(K, d_p, cam_p, z)
     skip_point = false;
    endif
    
+   u_d;
+   v_d;
+   
    e = [u_d; v_d] - z;
    
    J = zeros(2, 8);
