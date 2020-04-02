@@ -1,0 +1,13 @@
+----------------- Project 01 - Camera Calibration -------------------
+
+camera_param_ground_truth.dat : Contains the real camera parameters (fx,fy,cx,cy,k1,k2,p1,p2) and the rows and columns limits of the images produced by the camera.
+                                THIS FILE MUST BE USE JUST TO VERIFY THE OUTPUT OF YOUR PROGRAM
+
+camera_param_initial_guess.dat : Initial guess for the parameters
+
+grid3d.dat : Points of the grid used to calibrate in world frame
+
+image-%d.dat : Image projection of the grid, it contains also the real pose of the camera where the image was taken (you should not estimate this one).
+               The projections are written in the same order as the points in grid3d.dat (data association is known).
+               
+--------------------------------------------------------------------

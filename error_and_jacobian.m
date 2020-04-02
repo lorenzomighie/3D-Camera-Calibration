@@ -1,20 +1,18 @@
-function [e, J, n_inliers, chi, H, b] = error_and_jacobian(p_hom, R, K, d_p, i_p, i_m, n_p, s_dim, k_t, H, b) 
+function [e, J] = error_and_jacobian(p_hom, R, K, d_p, i_p_m, n_p, s_dim) 
 
   J = zeros(2*n_p, s_dim);
-  e = zeros(2*s_dim, 1);
+  e = zeros(2*n_p, 1);
+  % for taking into account point out of bound
   index_skip = [];
-  n_inliers = 0;
-  
   
   for i_point = 1:n_p
-              
-    z = squeeze(i_p(i_m, i_point, :)); % point i of exp m
-    cam_p = (R*p_hom(i_point, :)')(1:3); % point in camera frame
+        
+    z = squeeze(i_p_m(i_point, :));
+    cam_p = (R*p_hom(i_point, :)')(1:3);
     
     % projection
     xi = cam_p(1)/cam_p(3);
     yi = cam_p(2)/cam_p(3);
-    
     [fx, fy, cx, cy, k1, k2, p1, p2] = get_X(K, d_p);
     
     % measurement function
@@ -26,12 +24,13 @@ function [e, J, n_inliers, chi, H, b] = error_and_jacobian(p_hom, R, K, d_p, i_p
    
     % check image limits
     if(u < 0 || u > 480 || v < 0 || v > 640)
+      skip = 'outofbound';
       % track index of points out of bounds
-      index_skip = [index_skip, i_point];
+      %index_skip = [index_skip, i_point]
     endif
    
     % point error
-    e_p = [u; v] - z;
+    e_p = [u; v] - z';
     % point jacobian
     J_p = zeros(2, 8);
     J_p(1, 1) = xii;
@@ -45,28 +44,13 @@ function [e, J, n_inliers, chi, H, b] = error_and_jacobian(p_hom, R, K, d_p, i_p
     J_p(2, 8) = fy*2*xi*yi;
         
     % fill measurement error 
-    e(2*i_point - 1 :2*i_point) = e_p;      
+    e(2*i_point - 1 :2*i_point) = e_p;   
     % fill measurement jacobian
     J(2*i_point - 1 :2*i_point, :) = J_p;
     
-    
-    chichi = e_p'*e_p;
-    H += J_p'*J_p;
-    b += J_p'*e_p;
-
-      
   endfor
   
-  % chi error with threshold
-  chi = e'*e;
-  if (chi>k_t)
-    e *= sqrt(k_t/chi);
-    chi = k_t;
-  else
-    n_inliers++;
-  endif
-         
-  % remove point out of boundS
+  % remove points out of boundS
   for i_skip = 1:length(index_skip)
   i = index_skip(i_skip);
   e(2*i-1:2*i) = [];
