@@ -1,21 +1,23 @@
-function [e, J] = error_and_jacobian(p_hom, R, K, d_p, i_p_m, n_p, s_dim) 
+function [e, J] = error_and_jacobian(p_hom, R, K, d_p, i_p_m, n_p, s_dim, r_c) 
 
   J = zeros(2*n_p, s_dim);
   e = zeros(2*n_p, 1);
-  % for taking into account point out of bound
-  index_skip = [];
+  
+  % for taking into account point out of bounds
+  index_skip = []; 
+  rows = r_c(1);  % 640 
+  cols = r_c(2);  % 480
   
   for i_point = 1:n_p
-        
     z = squeeze(i_p_m(i_point, :));
-    cam_p = (R*p_hom(i_point, :)')(1:3);
+    cam_p = (R*p_hom(i_point, :)')(1:3);  
     
     % projection
     xi = cam_p(1)/cam_p(3);
     yi = cam_p(2)/cam_p(3);
     [fx, fy, cx, cy, k1, k2, p1, p2] = get_X(K, d_p);
     
-    % measurement function
+    % measurement function with Brown–Conrady distortion model
     r2 = xi^2 + yi^2;
     xii = xi*(1 + k1*r2 + k2*r2^2) + 2*p1*xi*yi + p2*(r2 + 2*xi^2);
     yii = yi*(1 + k1*r2 + k2*r2^2) + p1*(r2 + 2*yi^2) + 2*p2*xi*yi;
@@ -23,10 +25,10 @@ function [e, J] = error_and_jacobian(p_hom, R, K, d_p, i_p_m, n_p, s_dim)
     v = fy * yii + cy;
    
     % check image limits
-    if(u < 0 || u > 480 || v < 0 || v > 640)
-      skip = 'outofbound';
+    if(u < 0 || u > cols || v < 0 || v > rows)
+      skip = 'point out of bound'
       % track index of points out of bounds
-      %index_skip = [index_skip, i_point]
+      index_skip = [index_skip, i_point]
     endif
    
     % point error
@@ -43,21 +45,20 @@ function [e, J] = error_and_jacobian(p_hom, R, K, d_p, i_p_m, n_p, s_dim)
     J_p(2, 7) = fy*(r2 + 2*yi^2);
     J_p(2, 8) = fy*2*xi*yi;
         
-    % fill measurement error 
+    % fill measurement error and jacobian
     e(2*i_point - 1 :2*i_point) = e_p;   
-    % fill measurement jacobian
     J(2*i_point - 1 :2*i_point, :) = J_p;
     
   endfor
   
-  % remove points out of boundS
+  % remove point jacobian and error out of boundS
   for i_skip = 1:length(index_skip)
-  i = index_skip(i_skip);
-  e(2*i-1:2*i) = [];
-  J(2*i - 1 :2*i, :) = [];
-  index_skip -= 1;
+    i = index_skip(i_skip)
+    e(2*i-1:2*i) = [];
+    J(2*i - 1 :2*i, :) = [];
+    index_skip -= 1;
+    
   endfor 
-   
 endfunction
 
 

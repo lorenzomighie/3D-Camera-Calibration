@@ -6,9 +6,11 @@ function [camera_R_world, image_p_2D, n_measurements] = load_measurements (data_
   camera_R_world = zeros(n_el, 4, 4); % at most, the first dimension will be truncated later
   image_p_2D = zeros(n_el, n_points, 2);
 
-  for n_file=3:n_el
+  for n_file=1:n_el
     file = file_list{n_file};
-    if (file(1:5) == name)
+
+    if strfind(file, name) % if the file is a measurement
+      %file
       n_measurements += 1;
       path_file = strcat(data_dir, file);
       read_file = dlmread(path_file);
