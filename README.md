@@ -10,14 +10,14 @@ K = [fx, 0, cx;
      0, fy, cy;
      0,  0,  1].
      
-[x_im; y_im] = K*[x_cam; y_cam; z_cam].
+[x_im; y_im] = K [x_cam; y_cam; z_cam].
  
 In which the vector X_cam = [x_cam; y_cam; z_cam] is expressed with respect to the camera coordinate system, and X_im = [x_im; y_im] contains the points 
 coordinates in the image plane.
 
 Furthermore
 
-X_cam' = w_R_c*X_w' 
+X_cam' = w_R_c X_w' 
 
 In which the vector ' are in homogeneous coordinates and the matrix w_R_c is the rota-translation matrix expressing the pose of the camera with regard to 
 the world frame.
@@ -32,11 +32,11 @@ yi = x_cam(2)/y_cam(3);
 
 r2 = xi^2 + yi^2;
 
-xii = xi*(1 + k1*r2 + k2*r2^2) + 2*p1*xi*yi + p2*(r2 + 2*xi^2);
-yii = yi*(1 + k1*r2 + k2*r2^2) + p1*(r2 + 2*yi^2) + 2*p2*xi*yi;
+xii = xi (1 + k1 r2 + k2 r2^2) + 2 p1 xi yi + p2*(r2 + 2 xi^2);
+yii = yi (1 + k1 r2 + k2 r2^2) + p1 (r2 + 2*yi^2) + 2 p2 xi yi;
 
-u = fx * xii + cx;
-v = fy * yii + cy;
+u = fx xii + cx;
+v = fy yii + cy;
 
 ## State Definition
 
