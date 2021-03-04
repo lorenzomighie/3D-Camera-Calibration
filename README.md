@@ -61,10 +61,10 @@ In addition association of the 3D point with the respective measurements is know
 
 To apply this algorithm it is required to:
 
-     - compute the error for each measurement m, given as the sum of the error of each point measured: e_i = (u_i, v_i) - (z_x_i, z_y_i), where the vector 
+   - compute the error for each measurement m, given as the sum of the error of each point measured: e_i = (u_i, v_i) - (z_x_i, z_y_i), where the vector 
 Z_i is the i-th point of the measurement m;
-     - compute the Jacbian for each measurement m, by derivating the error with respect to the state: J_i = d(e_i)/dX.
+   - compute the Jacobian for each measurement m, by derivating the error with respect to the state, for each point: J_i = d(e_i)/dX.
 
-For each measurement an error vector e of size (2*number points) and a Jacobian J of size (2*number of points, space dimension = 8) are computed, and the matrices H and the vector b are updated: H += J'*J; b += J'*e.
+For each measurement an error vector e of size (2 number_of_points) and a Jacobian J of size (2 number_of_points, space_dimension = 8) are computed, and the matrices H and the vector b are updated: H += J'*J; b += J'*e.
 
-Once this procedure has been done for each measurement, the optimization step takes places: dx = -H\b --> X = X + dx
+Once this procedure has been done for each measurement, the optimization step takes places: dx = -H\b --> X = X + dx. All the aforementioned steps can be done for  a number of iterations, after which the algorithm will converge.
