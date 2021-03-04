@@ -8,9 +8,9 @@ Calibration of a pinhole camera with Brown-Conrady distortion model using Gauss-
 
 K = [fx, 0, cx;
      0, fy, cy;
-     0,  0,  1]
+     0,  0,  1].
      
-[x_im; y_im] = K*[x_cam; y_cam; z_cam]
+[x_im; y_im] = K*[x_cam; y_cam; z_cam].
  
 In which the vector X_cam = [x_cam; y_cam; z_cam] is expressed with respect to the camera coordinate system, and X_im = [x_im; y_im] contains the points 
 coordinates in the image plane.
@@ -39,7 +39,7 @@ v = fy * yii + cy;
 
 ## State Definition
 
-Such an optimization task requires non-linear least squares optimization applied to 8 parameters: fx, fy, cx, cy, p1, p2, d1, d2, therefore the state vector
+Such an optimization task requires non-linear least squares optimization applied to 8 parameters: fx, fy, cx, cy, p1, p2, d1, d2, therefore the state vector X
 is the vector containing this 8 elements.
 
 ## Data available
@@ -55,4 +55,12 @@ The association of the 3D point with the respective measurements is known.
 
 ## Gauss Newton Procedure
 
+To apply this algorithm it is required to:
 
+     - compute the error for each measurement m, given as the sum of the error of each point measured: e_i = (u_i, v_i) - (z_x_i, z_y_i), where the vector 
+Z_i is the i-th point of the measurement m;
+     - compute the Jacbian for each measurement m, by derivating the error with respect to the state: J_i = d(e_i)/dX.
+
+For each measurement an error vector e of size (2*number points) and a Jacobian J of size (2*number of points, space dimension = 8) are computed, and the matrices H and the vector b are updated: H += J'*J; b += J'*e.
+
+Once this procedure has been done for each measurement, the optimization step takes places: dx = -H\b --> X = X + dx
