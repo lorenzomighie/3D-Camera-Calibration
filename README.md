@@ -15,7 +15,7 @@ K = [fx, 0, cx;
 In which the vector X_cam = [x_cam; y_cam; z_cam] is expressed with respect to the camera coordinate system, and X_im = [x_im; y_im] contains the points 
 coordinates in the image plane.
 
-Furthermore
+Furthermore:
 
 X_cam' = w_R_c X_w' 
 
@@ -39,7 +39,7 @@ yii = yi (1 + k1 r2 + k2 r2^2) + p1 (r2 + 2*yi^2) + 2 p2 xi yi;
 
 u = fx xii + cx;
 
-v = fy yii + cy;
+v = fy yii + cy.
 
 ## State Definition
 
