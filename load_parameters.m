@@ -1,8 +1,8 @@
-function [K_truth, dist_param_truth, rows_cols] = load_parameters (path)
+function [K, dist_param, rows_cols] = load_parameters (path)
 
-  ground_truth = dlmread(path);
-  K_truth = ground_truth(2:4,1:3);
-  dist_param_truth = ground_truth(5,5:8)';
-  rows_cols = ground_truth(6:7,3);
+  file_lines = dlmread(path);
+  K = file_lines(2:4,1:3);
+  dist_param = file_lines(5,5:8)';
+  rows_cols = file_lines(6:7,3);
 
 endfunction
