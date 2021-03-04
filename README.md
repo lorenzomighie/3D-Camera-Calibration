@@ -1,6 +1,6 @@
 # 3D-Camera-Calibration
 
-Calibration of a pinhole camera with Brown-Conrady distortion model using Gauss-Newton optimization 
+Calibration of a pinhole camera with Brown-Conrady distortion model using Gauss-Newton optimization with Octave
 
 # Background
 
