@@ -28,6 +28,7 @@ It's a simple distortion model that takes into account radial and tangential dis
 to find the image coordinates with it.
 
 xi = x_cam(1)/y_cam(3);
+
 yi = x_cam(2)/y_cam(3);
 
 r2 = xi^2 + yi^2;
@@ -37,6 +38,7 @@ xii = xi (1 + k1 r2 + k2 r2^2) + 2 p1 xi yi + p2*(r2 + 2 xi^2);
 yii = yi (1 + k1 r2 + k2 r2^2) + p1 (r2 + 2*yi^2) + 2 p2 xi yi;
 
 u = fx xii + cx;
+
 v = fy yii + cy;
 
 ## State Definition
