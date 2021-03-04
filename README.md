@@ -49,13 +49,13 @@ is the vector containing this 8 elements.
 ## Data available
 
 For this calibration we have available: 
-   - the 3D point position in world frame (arranged on a chessboard)
-   - the initial state parameters (their initial guess)
+   - the 3D point position in world frame (arranged on a chessboard);
+   - the initial state parameters (their initial guess);
    - a set of measurements, each one containing:
       * the pose of the camera with respect to the world;
       * the points measured.
       
-The association of the 3D point with the respective measurements is known.
+In addition association of the 3D point with the respective measurements is known.
 
 ## Gauss Newton Procedure
 
