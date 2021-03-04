@@ -63,7 +63,7 @@ To apply this algorithm it is required to:
 
    - compute the error for each measurement m, given as the sum of the error of each point measured: e_i = (u_i, v_i) - (z_x_i, z_y_i), where the vector 
 Z_i is the i-th point of the measurement m;
-   - compute the Jacobian for each measurement m, by derivating the error with respect to the state, for each point: J_i = d(e_i)/dX.
+   - compute the Jacobian for each measurement m, by deriving the error with respect to the state, for each point: J_i = d(e_i)/dX.
 
 For each measurement an error vector e of size (2 number_of_points) and a Jacobian J of size (2 number_of_points, space_dimension = 8) are computed, and the matrices H and the vector b are updated: H += J'*J; b += J'*e.
 
