@@ -41,12 +41,12 @@ u = fx xii + cx;
 
 v = fy yii + cy.
 
-## State Definition
+# State Definition
 
 Such an optimization task requires non-linear least squares optimization applied to 8 parameters: fx, fy, cx, cy, p1, p2, d1, d2, therefore the state vector X
 is the vector containing this 8 elements.
 
-## Data available
+# Data available
 
 For this calibration we have available: 
    - the 3D point position in world frame (arranged on a chessboard);
@@ -55,9 +55,9 @@ For this calibration we have available:
       * the pose of the camera with respect to the world;
       * the points measured.
       
-In addition association of the 3D point with the respective measurements is known.
+In addition, the association of the 3D point with the respective measurements is known.
 
-## Gauss Newton Procedure
+# Gauss Newton Procedure
 
 To apply this algorithm it is required to:
 
