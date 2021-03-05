@@ -27,9 +27,9 @@ the world frame.
 It's a simple distortion model that takes into account radial and tangential distortion with 4 parameters (k1, k2, p1 and p2); the following formula show how 
 to find the image coordinates with it.
 
-xi = x_cam(1)/y_cam(3);
+xi = x_cam/z_cam;
 
-yi = x_cam(2)/y_cam(3);
+yi = y_cam/z_cam;
 
 r2 = xi^2 + yi^2;
 
