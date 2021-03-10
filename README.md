@@ -68,3 +68,21 @@ Z_i is the i-th point of the measurement m;
 For each measurement an error vector e of size (2 number_of_points) and a Jacobian J of size (2 number_of_points, space_dimension = 8) are computed, and the matrices H and the vector b are updated: H += J'*J; b += J'*e.
 
 Once this procedure has been done for each measurement, the optimization step takes places: dx = -H\b --> X = X + dx. All the aforementioned steps can be done for  a number of iterations, after which the algorithm will converge.
+
+# How To Use
+
+Just run the file 'main.m' with Octave.
+
+If you want to use different camera model you'll have to modify:
+- the state vector;
+- the measurement function, hence the error vector;
+- the Jacobian;
+- the size of the matrix H and the vector b.
+
+# Results
+
+The algorithm reaches convergence after 4 iterations, with an Eucledean norm of about 0.031.
+
+![GitHub Logo](/images/error_plot.png)
+Format: ![Alt Text](url)
+
