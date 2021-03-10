@@ -84,5 +84,4 @@ If you want to use different camera model you'll have to modify:
 The algorithm reaches convergence after 4 iterations, with an Eucledean norm of about 0.031.
 
 ![GitHub Logo](/images/error_plot.png)
-Format: ![Alt Text](url)
 
